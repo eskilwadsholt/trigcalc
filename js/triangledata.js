@@ -7,7 +7,7 @@ var pair1 = { side: null, angle: null };
 var pair2 = { side: null, angle: null };
 var pair3 = { side: null, angle: null };
 
-pair3.side = 13.4;
+pair1.side = 13.4;
 pair2.angle = 23;
 pair2.side = 7;
 
