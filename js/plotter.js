@@ -2,7 +2,7 @@
 var data = [150, 230, 180, 90];
 
 var chart = document.getElementById("chart");
-var dimensions = Math.min(chart.clientWidth, chart.clientHeight) - 20;
+var dimensions = Math.min(chart.clientWidth, chart.clientHeight);
     
 var svg = d3.select(chart)
             .append("svg");
@@ -16,12 +16,22 @@ svg.append("rect")
     .attr("height", dimensions)
     .style("fill", "rgba(0, 0, 0, 0.1)");
 
+// Append empty containers for axes
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", `translate(${0.1 * dimensions}, ${0.9 * dimensions})`);
+svg.append("g")
+    .attr("class", "y axis")
+    .attr("transform", `translate(${0.1 * dimensions}, ${0.1 * dimensions})`);
+
+
 var svgTriangle2 = svg.append("polygon")
     .attr("id", "backgroundTriangle");;
 
 var svgTriangle = svg.append("polygon")
     .attr("id", "frontTriangle");
 
+findMissingSides(pairs);
 plotTriangles(pairs);
 
 function plotTriangles(pairs) {
@@ -114,12 +124,16 @@ function plotTriangles(pairs) {
     var scaleFactor = xMax - xMin;
     if (yMax - yMin > scaleFactor) scaleFactor = yMax - yMin;
     var scale = d3.scaleLinear()
-        .range([
-            dimensions / 2 - 0.4 * dimensions, 
-            dimensions / 2 + 0.4 * dimensions
-        ]);
+        .range([0.2 * dimensions, 0.8 * dimensions]);
 
     scale.domain([-scaleFactor / 2, scaleFactor / 2]);
+    var xScale = d3.scaleLinear()
+        .range([0, 0.8 * dimensions]);
+    xScale.domain([0, scaleFactor * 8 / 6]);
+    var yScale = d3.scaleLinear()
+        .range([0, 0.8 * dimensions]);
+    yScale.domain([scaleFactor * 8 / 6, 0]);
+
 
     function pointToString(P) {
         return scale(P[0] - xMid) + "," + scale(yMid - P[1]) + " ";
@@ -140,6 +154,16 @@ function plotTriangles(pairs) {
 
     svgTriangle
         .attr("points", trianglePoints);
+
+    var xAxis = d3.axisBottom().scale(xScale);
+    var yAxis = d3.axisLeft().scale(yScale);
+
+    d3.select(".x.axis")
+        .call(xAxis);
+    
+    d3.select(".y.axis")
+        .call(yAxis);
+
 
     if (debugging) {
         console.log("P1:\t" + P1);
