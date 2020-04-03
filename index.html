@@ -5,6 +5,8 @@
 <title>Trekantshjælper</title>
 <link href="./css/shapes.css" rel="stylesheet">
 <script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
  
 <style>
 html, body {
@@ -14,7 +16,7 @@ html, body {
 }
 
 #chart {
-    height: 60%;
+    height: 65%;
     padding: 20px;
 }
 
@@ -29,6 +31,9 @@ html, body {
 </head>
 <body>
     <div id="chart"></div>
+    <div id="formulas">
+      \[\sin(v)=\frac{mod}{hyp}\]
+    </div>
 </body>
 
 <script src="./js/triangledata.js"></script>

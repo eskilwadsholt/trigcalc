@@ -1,11 +1,19 @@
 const toRadians = Math.PI / 180;
 const toDegrees = 180 / Math.PI;
-const debugging = true;
+const debugging = false;
 
 function findMissingSides(pairs) {
-    tryAnglesum(pairs);
-    trySinRels(pairs);
-    tryCosRels(pairs);
+    var solvedPairs = [{}, {}, {}]
+    solvedPairs[0].side = pairs[0].side;
+    solvedPairs[1].side = pairs[1].side;
+    solvedPairs[2].side = pairs[2].side;
+    solvedPairs[0].angle = pairs[0].angle;
+    solvedPairs[1].angle = pairs[1].angle;
+    solvedPairs[2].angle = pairs[2].angle;
+    tryAnglesum(solvedPairs);
+    trySinRels(solvedPairs);
+    tryCosRels(solvedPairs);
+    return solvedPairs;
 }
 
 function tryCosRels(pairs) {

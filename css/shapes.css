@@ -1,12 +1,15 @@
 polygon {
     stroke: black;
-    stroke-width: 4;
+    stroke-width: 2;
     stroke-linejoin: round;
 }
 #frontTriangle {
-    fill: rgb(180, 180, 238);
+    fill: rgb(193, 193, 241);
 }
 #backgroundTriangle {
-    fill: rgb(236, 133, 133);
+    fill: rgb(238, 168, 168);
 }
-
+#angle, #side {
+    fill: greenyellow;
+    text-shadow: 1px 1px gray;
+}

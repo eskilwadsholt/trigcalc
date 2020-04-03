@@ -31,11 +31,11 @@ var svgTriangle2 = svg.append("polygon")
 var svgTriangle = svg.append("polygon")
     .attr("id", "frontTriangle");
 
-findMissingSides(pairs);
-plotTriangles(pairs);
+var solvedPairs = findMissingSides(pairs);
+plotTriangles(pairs, names, solvedPairs);
 
-function plotTriangles(pairs) {
-    var [pair1, pair2, pair3] = pairs;
+function plotTriangles(pairs, names, solvedPairs) {
+    var [pair1, pair2, pair3] = solvedPairs;
     var s1, s2, s3, s4, s5, s6;
     var hasTwoLengths = 0;
     if (Array.isArray(pair1.side)) {
@@ -158,11 +158,69 @@ function plotTriangles(pairs) {
     var xAxis = d3.axisBottom().scale(xScale);
     var yAxis = d3.axisLeft().scale(yScale);
 
+    /*
     d3.select(".x.axis")
         .call(xAxis);
     
     d3.select(".y.axis")
         .call(yAxis);
+    */
+
+    function createAngleText(i) {
+        var angleText = names[i]["angle"];
+        angleText += (hasAngle(pairs[i]) ?  "=" + pairs[i].angle : "");
+        return angleText;
+    }
+
+    var angleTexts = [
+        { point: P1, text: createAngleText(1), displace: [-14, 8]},
+        { point: P2, text: createAngleText(2), displace: [5, 8]},
+        { point: P3, text: createAngleText(0), displace: [2, -3]},
+        { point: P4, text: createAngleText(1), displace: [-14, 8]},
+        { point: P5, text: createAngleText(2), displace: [5, 8]},
+        { point: P6, text: createAngleText(0), displace: [2, -3]},
+    ];
+
+    var angles = svg.selectAll(".angles")
+        .data(angleTexts)
+        .enter()
+        .append("text");
+        
+    angles
+        .attr("x", function(d) { return scale(d.point[0] - xMid) + d.displace[0]; })
+        .attr("y", function(d) { return scale(yMid - d.point[1]) + d.displace[1]; })
+        .attr("id", "angle")
+        .text(function(d) { return d.text; });
+
+    function createSideText(i) {
+        var sideText = names[i].side;
+        sideText += (hasSide(pairs[i]) ? "=" + pairs[i].side : "");
+        return sideText;
+    }
+
+    function midPoint(A, B) {
+        return [(A[0] + B[0])/2, (A[1] + B[1])/2];
+    }
+
+    var sideTexts = [
+        { point: midPoint(P1, P2), text: createSideText(0)},
+        { point: midPoint(P2, P3), text: createSideText(1)},
+        { point: midPoint(P3, P1), text: createSideText(2)},
+        { point: midPoint(P4, P5), text: createSideText(0)},
+        { point: midPoint(P5, P6), text: createSideText(1)},
+        { point: midPoint(P6, P4), text: createSideText(2)},
+    ];
+
+    var sides = svg.selectAll(".sides")
+        .data(sideTexts)
+        .enter()
+        .append("text");
+        
+    sides
+        .attr("x", function(d) { return scale(d.point[0] - xMid); })
+        .attr("y", function(d) { return scale(yMid - d.point[1]); })
+        .attr("id", "side")
+        .text(function(d) { return d.text; });
 
 
     if (debugging) {
