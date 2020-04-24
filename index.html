@@ -10,29 +10,34 @@
  
 <style>
 html, body {
-    width: 95%;
-    height: 95%;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
 }
 
 #chart {
-    height: 65%;
+    height: 70vmin;
+    width: 70vmin;
     padding: 20px;
 }
 
-.bar {
-  fill: steelblue;
-}
- 
-.bar:hover {
-  fill: orange;
+#formulas {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 </style>
 </head>
 <body>
     <div id="chart"></div>
     <div id="formulas">
-      \[\sin(v)=\frac{mod}{hyp}\]
+      <div>
+        \[\sin(v)=\frac{mod}{hyp}\]
+      </div>
+      <div>
+        \[\frac{0.5 \cdot 23 + 1.5 \cdot 49 + 3 \cdot 12 + 6 \cdot 134 + 9 \cdot 67}
+        {23 + 49 + 12 + 134 + 67}\]
+      </div>
     </div>
 </body>
 
